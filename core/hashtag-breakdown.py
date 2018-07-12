@@ -1,7 +1,11 @@
 import filepaths as FILES
+import sys
 # import matplotlib.pyplot as plt
 
 #example = '"[{""text"":""TrumpTrain""},{""text"":""Trump""},{""text"":""Putin""}]",2016-11-01T00:00:00.000Z'
+
+# Argument 1: File path of input file (eg. nov-hashtags.data)
+# Argument 2: File path of output file (eg. nov-hashtags-occurrences.data)
 
 # If there were any hashtags
 def tokens_to_hashtags(tweet):
@@ -31,7 +35,7 @@ def format_tweet(tweet):
 
 def load_hashtags(filepath):
     data = []
-    with open(FILES.get_filepath("nov-hashtags.data"), 'r') as file:
+    with open(FILES.get_filepath(filepath), 'r') as file:
 
         ignore = 1
         for line in file:
@@ -44,7 +48,7 @@ def load_hashtags(filepath):
 
     return data
 
-hashtag_occurrences = load_hashtags("nov-hashtags.data")
+hashtag_occurrences = load_hashtags(str(sys.argv[1]))
 
 hashtag_counts = {}
 for h_o in hashtag_occurrences:
@@ -58,7 +62,7 @@ for h_o in hashtag_occurrences:
             hashtag_counts[h] += 1
 
 hashtag_count_distribution = []
-with open(FILES.get_filepath("nov-hashtags-occurrences.data"), 'w') as file:
+with open(FILES.get_filepath(str(sys.argv[2])), 'w') as file:
     for h_c in hashtag_counts.keys():
         file.write(h_c + ',' + str(hashtag_counts[h_c]) + '\n')
         hashtag_count_distribution.append(hashtag_counts[h_c])
